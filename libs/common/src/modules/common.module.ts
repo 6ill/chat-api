@@ -3,16 +3,18 @@ import { CommonService } from '../services/common.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { AuthGuard } from '../guards/auth.guard';
+import { RedisModule } from './redis.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: './.env'
-    })
+    }),
+    RedisModule
   ],
-  providers: [CommonService, AuthGuard],
-  exports: [CommonService, AuthGuard],
+  providers: [CommonService, ],
+  exports: [CommonService, ],
 })
 export class CommonModule {
   static registerRmq(service: string, queue:string): DynamicModule {
