@@ -1,73 +1,183 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
+<h1 align="center">Chat API</h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-blue.svg?cacheSeconds=2592000" />
+  <a href="https://github.com/6ill/ecommerce-api/blob/master/LICENSE)" target="_blank">
+    <img alt="Static Badge" src="https://img.shields.io/badge/license-MIT-blue">
+  </a>
 </p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+A scalable real-time messaging application built with NestJS microservices architecture.
+
+## Features
+
+- Real-time messaging with WebSocket
+- User authentication & authorization with JWT
+- Friend system (add friends, see online status)
+- Message history
+- Online/offline presence tracking
+- Persistent conversations
+
+## Tech Stack
+
+- **Backend Framework**: NestJS
+- **Database**: PostgreSQL
+- **Caching**: Redis
+- **Message Broker**: RabbitMQ
+- **WebSocket**: Socket.IO
+- **Containerization**: Docker
+- **ORM**: TypeORM
+
+## Architecture
+
+The application is built using a microservices architecture with the following services:
+
+- **API Gateway** (Port 4000)
+  - Entry point for client requests
+  - Routes requests to appropriate microservices
+  - Handles WebSocket connections
+
+- **Auth Service**
+  - User authentication and authorization
+  - JWT token management
+  - Friend system management
+
+- **Chat Service** (Port 7000)
+  - Handles message operations
+  - Manages conversations
+  - Real-time message delivery
+
+- **Presence Service** (Port 6000)
+  - Tracks user online/offline status
+  - Manages user presence
+  - Real-time status updates
+
+## Prerequisites
+
+- Docker and Docker Compose
+- Node.js (v16+)
+- PostgreSQL
+- Redis
+- RabbitMQ
 
 ## Installation
 
+1. Clone the repository
 ```bash
-$ npm install
+git clone <repository-url>
+cd messenger-clone/api
 ```
 
-## Running the app
-
+2. Install dependencies
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Test
+3. Create `.env` file in the root directory with the following variables:
+```env
+# RabbitMQ
+RABBITMQ_DEFAULT_USER=user
+RABBITMQ_DEFAULT_PASS=password
+RABBITMQ_USER=user
+RABBITMQ_PASS=password
+RABBITMQ_HOST=rabbitmq:5672
 
-```bash
-# unit tests
-$ npm run test
+RABBITMQ_AUTH_QUEUE=auth_queue
+RABBITMQ_PRESENCE_QUEUE=presence_queue
+RABBITMQ_CHAT_QUEUE=chat_queue
 
-# e2e tests
-$ npm run test:e2e
+# PostgreSQL
+POSTGRES_USER=root
+POSTGRES_PASSWORD=secret
+POSTGRES_DB=messenger
+POSTGRES_URI=pg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
 
-# test coverage
-$ npm run test:cov
+# pgAdmin
+PGADMIN_DEFAULT_EMAIL=your-email@example.com
+PGADMIN_DEFAULT_PASSWORD=password
+
+# Auth
+HASH_ROUND=12
+JWT_SECRET=your-secret-key
+
+# Redis
+REDIS_PASS=password
+REDIS_URI=redis://default:${REDIS_PASS}@redis:6379
 ```
 
-## Support
+## Running the Application
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Using Docker Compose (Recommended)
 
-## Stay in touch
+```bash
+docker-compose up
+```
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+This will start all services:
+- API Gateway: http://localhost:4000
+- Chat Service: http://localhost:7000
+- Presence Service: http://localhost:6000
+- PostgreSQL: localhost:5432
+- Redis: localhost:6379
+- RabbitMQ: localhost:5672 (Management UI: http://localhost:15672)
+- pgAdmin: http://localhost:15432
+
+### Development Mode
+
+To run individual services:
+
+```bash
+# API Gateway
+npm run start:dev api
+
+# Auth Service
+npm run start:dev auth
+
+# Chat Service
+npm run start:dev chat
+
+# Presence Service
+npm run start:dev presence
+```
+
+## API Endpoints
+
+### Authentication
+- `POST /auth/register` - Register new user
+- `POST /auth/login` - User login
+
+### Friends
+- `GET /get-friends` - Get user's friend list
+- `GET /add-friend/:id` - Send friend request
+
+### WebSocket Events
+- `connection` - Socket connection (requires JWT)
+- `sendMessage` - Send new message
+- `getConversations` - Get user conversations
+- `friendActive` - Friend online/offline status updates
+
+## Project Structure
+```
+api/
+├── apps/
+│   ├── api/          # API Gateway
+│   ├── auth/         # Authentication Service
+│   ├── chat/         # Chat Service
+│   └── presence/     # Presence Service
+├── libs/
+│   └── common/       # Shared code
+└── docker-compose.yml
+```
+
+## Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+This project is licensed under the MIT License.
